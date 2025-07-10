@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - LibiMall</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #2c3e50 !important;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+        
+        .cart-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+        }
+        
+        .cart-container {
+            padding: 3rem 0;
+            min-height: 60vh;
+        }
+        
+        .cart-item {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .cart-item-info h6 {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-category {
+            color: #667eea;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cart-item-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e74c3c;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn:hover {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .remove-btn {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+        
+        .cart-summary {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 2rem;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        .btn-checkout {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        
+        .btn-continue {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-continue:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .shipping-options {
+            margin: 1.5rem 0;
+        }
+        
+        .shipping-option {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .shipping-option:hover,
+        .shipping-option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-bag-check me-2"></i>LibiMall
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/fashion">Fashion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/electronics">Electronics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/cart"><i class="bi bi-cart3 me-1"></i>Cart (3)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Header -->
+    <section class="cart-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1><i class="bi bi-cart3 me-3"></i>Shopping Cart</h1>
+                    <p class="lead">Review your items and proceed to checkout</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Container -->
+    <section class="cart-container">
+        <div class="container">
+            <div class="row">
+                <!-- Cart Items -->
+                <div class="col-lg-8">
+                    <!-- Cart Item 1 -->
+                    <div class="cart-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=120&h=120&fit=crop" class="cart-item-image" alt="Smartphone">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cart-item-info">
+                                    <div class="cart-item-category">Smartphones</div>
+                                    <h6>Premium Smartphone Pro Max</h6>
+                                    <p class="text-muted mb-0">Color: Space Black, Storage: 256GB</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(1)">-</button>
+                                    <input type="number" class="quantity-input" id="qty1" value="1" min="1">
+                                    <button class="quantity-btn" onclick="increaseQuantity(1)">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="cart-item-price">$899.00</div>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="remove-btn" onclick="removeItem(1)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item 2 -->
+                    <div class="cart-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <img src="https://images.unsplash.com/photo-1545127398-14699f92334b?w=120&h=120&fit=crop" class="cart-item-image" alt="Headphones">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cart-item-info">
+                                    <div class="cart-item-category">Audio</div>
+                                    <h6>Wireless Noise-Cancelling Headphones</h6>
+                                    <p class="text-muted mb-0">Color: Midnight Black</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(2)">-</button>
+                                    <input type="number" class="quantity-input" id="qty2" value="2" min="1">
+                                    <button class="quantity-btn" onclick="increaseQuantity(2)">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="cart-item-price">$598.00</div>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="remove-btn" onclick="removeItem(2)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item 3 -->
+                    <div class="cart-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=120&h=120&fit=crop" class="cart-item-image" alt="Dress">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cart-item-info">
+                                    <div class="cart-item-category">Fashion</div>
+                                    <h6>Elegant Summer Dress</h6>
+                                    <p class="text-muted mb-0">Size: M, Color: Coral Red</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(3)">-</button>
+                                    <input type="number" class="quantity-input" id="qty3" value="1" min="1">
+                                    <button class="quantity-btn" onclick="increaseQuantity(3)">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="cart-item-price">$89.99</div>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="remove-btn" onclick="removeItem(3)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="col-lg-4">
+                    <div class="cart-summary">
+                        <h5 class="mb-3">Order Summary</h5>
+                        
+                        <div class="summary-row">
+                            <span>Subtotal (4 items)</span>
+                            <span id="subtotal">$1,586.99</span>
+                        </div>
+                        
+                        <!-- Shipping Options -->
+                        <div class="shipping-options">
+                            <h6>Shipping Options</h6>
+                            <div class="shipping-option selected">
+                                <input type="radio" name="shipping" value="standard" checked>
+                                <strong>Standard Shipping</strong> (5-7 days)
+                                <span class="float-end">$9.99</span>
+                            </div>
+                            <div class="shipping-option">
+                                <input type="radio" name="shipping" value="express">
+                                <strong>Express Shipping</strong> (2-3 days)
+                                <span class="float-end">$19.99</span>
+                            </div>
+                            <div class="shipping-option">
+                                <input type="radio" name="shipping" value="overnight">
+                                <strong>Overnight Shipping</strong> (1 day)
+                                <span class="float-end">$39.99</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shipping-cost">$9.99</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span id="tax">$127.96</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Total</span>
+                            <span id="total">$1,724.94</span>
+                        </div>
+                        
+                        <button class="btn-checkout">
+                            <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
+                        </button>
+                        
+                        <button class="btn-continue">
+                            <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="bi bi-bag-check me-2"></i>LibiMall</h5>
+                    <p class="mb-3">Your premier destination for quality products and exceptional service.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Shopping</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Fashion</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Electronics</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Accessories</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Help</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Order Status</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Returns</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Shipping</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p style="color: #bdc3c7; margin: 0;">
+                        <i class="bi bi-geo-alt-fill me-2"></i>123 Shopping Street, Commerce City<br>
+                        <i class="bi bi-envelope-fill me-2"></i>support@libimall.com<br>
+                        <i class="bi bi-phone-fill me-2"></i>+1 (555) 123-SHOP
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: #34495e;">
+            <div class="text-center">
+                <p class="mb-0" style="color: #bdc3c7;">&copy; 2025 LibiMall. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cart functionality
+        let cartItems = [
+            { id: 1, name: "Premium Smartphone Pro Max", price: 899.00, quantity: 1 },
+            { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 299.00, quantity: 2 },
+            { id: 3, name: "Elegant Summer Dress", price: 89.99, quantity: 1 }
+        ];
+
+        function increaseQuantity(itemId) {
+            const qtyInput = document.getElementById(`qty${itemId}`);
+            const newQty = parseInt(qtyInput.value) + 1;
+            qtyInput.value = newQty;
+            updateItemQuantity(itemId, newQty);
+            updateCartSummary();
+        }
+
+        function decreaseQuantity(itemId) {
+            const qtyInput = document.getElementById(`qty${itemId}`);
+            const newQty = Math.max(1, parseInt(qtyInput.value) - 1);
+            qtyInput.value = newQty;
+            updateItemQuantity(itemId, newQty);
+            updateCartSummary();
+        }
+
+        function updateItemQuantity(itemId, quantity) {
+            const item = cartItems.find(item => item.id === itemId);
+            if (item) {
+                item.quantity = quantity;
+            }
+        }
+
+        function removeItem(itemId) {
+            if (confirm('Are you sure you want to remove this item from your cart?')) {
+                cartItems = cartItems.filter(item => item.id !== itemId);
+                document.querySelector(`#qty${itemId}`).closest('.cart-item').remove();
+                updateCartSummary();
+            }
+        }
+
+        function updateCartSummary() {
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08; // 8% tax
+            const shipping = getShippingCost();
+            const total = subtotal + tax + shipping;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function getShippingCost() {
+            const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+            const costs = {
+                'standard': 9.99,
+                'express': 19.99,
+                'overnight': 39.99
+            };
+            return costs[selectedShipping.value] || 9.99;
+        }
+
+        // Shipping option selection
+        document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Update visual selection
+                document.querySelectorAll('.shipping-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                this.closest('.shipping-option').classList.add('selected');
+                
+                // Update summary
+                updateCartSummary();
+            });
+        });
+
+        // Shipping option click handling
+        document.querySelectorAll('.shipping-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change'));
+            });
+        });
+
+        // Checkout button
+        document.querySelector('.btn-checkout').addEventListener('click', function() {
+            alert('Proceeding to secure checkout...');
+            // Here you would redirect to the checkout page
+        });
+
+        // Continue shopping button
+        document.querySelector('.btn-continue').addEventListener('click', function() {
+            window.location.href = '/products';
+        });
+
+        // Initialize cart summary
+        updateCartSummary();
+    </script>
+</body>
+</html>

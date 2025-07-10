@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Collection - LibiMall</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #2c3e50 !important;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 5rem 0;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .fashion-grid {
+            padding: 3rem 0;
+        }
+        
+        .fashion-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .fashion-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .fashion-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .fashion-card:hover .fashion-image {
+            transform: scale(1.05);
+        }
+        
+        .fashion-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fashion-card:hover .fashion-overlay {
+            opacity: 1;
+        }
+        
+        .fashion-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .fashion-card:hover .fashion-info {
+            transform: translateY(0);
+        }
+        
+        .fashion-body {
+            padding: 1.5rem;
+        }
+        
+        .fashion-category {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .fashion-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0.5rem 0;
+        }
+        
+        .fashion-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e74c3c;
+            margin: 0.5rem 0;
+        }
+        
+        .size-options {
+            margin: 1rem 0;
+        }
+        
+        .size-btn {
+            width: 35px;
+            height: 35px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .size-btn:hover,
+        .size-btn.active {
+            border-color: #ff6b6b;
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .color-options {
+            margin: 1rem 0;
+        }
+        
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .color-btn:hover,
+        .color-btn.active {
+            border-color: #2c3e50;
+            transform: scale(1.1);
+        }
+        
+        .btn-fashion {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-fashion:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            color: white;
+        }
+        
+        .collection-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 3rem 0;
+            margin: 3rem 0;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .trending-section {
+            background: #f8f9fa;
+            padding: 4rem 0;
+            margin: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-bag-check me-2"></i>LibiMall
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/fashion">Fashion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart"><i class="bi bi-cart3 me-1"></i>Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">Fashion Collection</h1>
+                    <p class="lead">Discover the latest trends in fashion. From casual wear to formal attire, find your perfect style.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fashion Grid -->
+    <section class="fashion-grid">
+        <div class="container">
+            <div class="row">
+                <!-- Fashion Item 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="fashion-card">
+                        <div class="fashion-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=400&fit=crop" class="fashion-image" alt="Summer Dress">
+                        <div class="fashion-info">
+                            <h6>Perfect for summer days</h6>
+                            <p>Light, breathable fabric with elegant design</p>
+                        </div>
+                        <div class="fashion-body">
+                            <div class="fashion-category">Women's Dress</div>
+                            <h6 class="fashion-title">Elegant Summer Dress</h6>
+                            <div class="size-options">
+                                <button class="size-btn">XS</button>
+                                <button class="size-btn active">S</button>
+                                <button class="size-btn">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #ff6b6b;"></div>
+                                <div class="color-btn" style="background: #4834d4;"></div>
+                                <div class="color-btn" style="background: #27ae60;"></div>
+                                <div class="color-btn" style="background: #2c3e50;"></div>
+                            </div>
+                            <div class="fashion-price">$89.99</div>
+                            <button class="btn-fashion">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fashion Item 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="fashion-card">
+                        <div class="fashion-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&h=400&fit=crop" class="fashion-image" alt="Casual Shirt">
+                        <div class="fashion-info">
+                            <h6>Versatile and stylish</h6>
+                            <p>Perfect for both casual and semi-formal occasions</p>
+                        </div>
+                        <div class="fashion-body">
+                            <div class="fashion-category">Men's Shirt</div>
+                            <h6 class="fashion-title">Premium Cotton Shirt</h6>
+                            <div class="size-options">
+                                <button class="size-btn">S</button>
+                                <button class="size-btn active">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                                <button class="size-btn">XXL</button>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn" style="background: #ffffff; border: 2px solid #ddd;"></div>
+                                <div class="color-btn active" style="background: #74b9ff;"></div>
+                                <div class="color-btn" style="background: #2c3e50;"></div>
+                                <div class="color-btn" style="background: #a29bfe;"></div>
+                            </div>
+                            <div class="fashion-price">$69.99</div>
+                            <button class="btn-fashion">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fashion Item 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="fashion-card">
+                        <div class="fashion-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop" class="fashion-image" alt="Winter Jacket">
+                        <div class="fashion-info">
+                            <h6>Stay warm and stylish</h6>
+                            <p>Premium winter jacket with modern design</p>
+                        </div>
+                        <div class="fashion-body">
+                            <div class="fashion-category">Outerwear</div>
+                            <h6 class="fashion-title">Winter Parka Jacket</h6>
+                            <div class="size-options">
+                                <button class="size-btn">XS</button>
+                                <button class="size-btn">S</button>
+                                <button class="size-btn active">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #2c3e50;"></div>
+                                <div class="color-btn" style="background: #8b4513;"></div>
+                                <div class="color-btn" style="background: #006400;"></div>
+                                <div class="color-btn" style="background: #8b0000;"></div>
+                            </div>
+                            <div class="fashion-price">$159.99</div>
+                            <button class="btn-fashion">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fashion Item 4 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="fashion-card">
+                        <div class="fashion-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=400&fit=crop" class="fashion-image" alt="Casual Jeans">
+                        <div class="fashion-info">
+                            <h6>Classic denim style</h6>
+                            <p>Comfortable fit with premium denim quality</p>
+                        </div>
+                        <div class="fashion-body">
+                            <div class="fashion-category">Denim</div>
+                            <h6 class="fashion-title">Classic Blue Jeans</h6>
+                            <div class="size-options">
+                                <button class="size-btn">28</button>
+                                <button class="size-btn">30</button>
+                                <button class="size-btn active">32</button>
+                                <button class="size-btn">34</button>
+                                <button class="size-btn">36</button>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #4169E1;"></div>
+                                <div class="color-btn" style="background: #2F4F4F;"></div>
+                                <div class="color-btn" style="background: #000080;"></div>
+                                <div class="color-btn" style="background: #2c3e50;"></div>
+                            </div>
+                            <div class="fashion-price">$79.99</div>
+                            <button class="btn-fashion">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fashion Item 5 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="fashion-card">
+                        <div class="fashion-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&h=400&fit=crop" class="fashion-image" alt="Blazer">
+                        <div class="fashion-info">
+                            <h6>Professional elegance</h6>
+                            <p>Perfect for business meetings and formal events</p>
+                        </div>
+                        <div class="fashion-body">
+                            <div class="fashion-category">Formal Wear</div>
+                            <h6 class="fashion-title">Business Blazer</h6>
+                            <div class="size-options">
+                                <button class="size-btn">S</button>
+                                <button class="size-btn active">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                                <button class="size-btn">XXL</button>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #2c3e50;"></div>
+                                <div class="color-btn" style="background: #34495e;"></div>
+                                <div class="color-btn" style="background: #8b4513;"></div>
+                                <div class="color-btn" style="background: #696969;"></div>
+                            </div>
+                            <div class="fashion-price">$199.99</div>
+                            <button class="btn-fashion">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fashion Item 6 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="fashion-card">
+                        <div class="fashion-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=400&fit=crop" class="fashion-image" alt="Summer Top">
+                        <div class="fashion-info">
+                            <h6>Casual comfort</h6>
+                            <p>Light and airy for those warm summer days</p>
+                        </div>
+                        <div class="fashion-body">
+                            <div class="fashion-category">Women's Top</div>
+                            <h6 class="fashion-title">Casual Summer Top</h6>
+                            <div class="size-options">
+                                <button class="size-btn">XS</button>
+                                <button class="size-btn active">S</button>
+                                <button class="size-btn">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn" style="background: #ffffff; border: 2px solid #ddd;"></div>
+                                <div class="color-btn active" style="background: #ff6b6b;"></div>
+                                <div class="color-btn" style="background: #74b9ff;"></div>
+                                <div class="color-btn" style="background: #55a3ff;"></div>
+                            </div>
+                            <div class="fashion-price">$45.99</div>
+                            <button class="btn-fashion">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Banner -->
+    <section class="collection-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>New Spring Collection</h2>
+                    <p class="lead">Discover fresh styles for the new season. Limited time offer - up to 40% off selected items!</p>
+                    <a href="/products" class="btn btn-light btn-lg">
+                        <i class="bi bi-eye me-2"></i>View Collection
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section class="trending-section">
+        <div class="container">
+            <h2 class="section-title">Trending Now</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <img src="https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=200&h=200&fit=crop" class="rounded-circle mb-3" alt="Trend 1">
+                        <h5>Vintage Denim</h5>
+                        <p>Classic styles making a comeback</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=200&h=200&fit=crop" class="rounded-circle mb-3" alt="Trend 2">
+                        <h5>Minimalist</h5>
+                        <p>Clean lines and simple elegance</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200&h=200&fit=crop" class="rounded-circle mb-3" alt="Trend 3">
+                        <h5>Bold Colors</h5>
+                        <p>Vibrant hues for confident looks</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=200&h=200&fit=crop" class="rounded-circle mb-3" alt="Trend 4">
+                        <h5>Sustainable</h5>
+                        <p>Eco-friendly fashion choices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="bi bi-bag-check me-2"></i>LibiMall</h5>
+                    <p class="mb-3">Your premier destination for fashion and style.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Fashion</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Women's</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Men's</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Accessories</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Help</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Size Guide</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Returns</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Shipping</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p style="color: #bdc3c7; margin: 0;">
+                        <i class="bi bi-geo-alt-fill me-2"></i>123 Fashion Street, Style City<br>
+                        <i class="bi bi-envelope-fill me-2"></i>fashion@libimall.com<br>
+                        <i class="bi bi-phone-fill me-2"></i>+1 (555) 123-STYLE
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: #34495e;">
+            <div class="text-center">
+                <p class="mb-0" style="color: #bdc3c7;">&copy; 2025 LibiMall Fashion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Size selection
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentNode.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Color selection
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentNode.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Add to bag functionality
+        document.querySelectorAll('.btn-fashion').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.innerHTML = '<i class="bi bi-check2 me-2"></i>Added to Bag!';
+                this.style.background = '#27ae60';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="bi bi-bag-plus me-2"></i>Add to Bag';
+                    this.style.background = '';
+                }, 2500);
+            });
+        });
+    </script>
+</body>
+</html>

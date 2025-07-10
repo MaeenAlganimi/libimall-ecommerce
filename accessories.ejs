@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessories Store - LibiMall</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #2c3e50 !important;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            color: white;
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .accessories-grid {
+            padding: 4rem 0;
+        }
+        
+        .accessory-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            height: 100%;
+        }
+        
+        .accessory-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .accessory-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .accessory-card:hover .accessory-image {
+            transform: scale(1.1);
+        }
+        
+        .sale-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 2;
+        }
+        
+        .trending-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 2;
+        }
+        
+        .accessory-body {
+            padding: 1.8rem;
+        }
+        
+        .accessory-category {
+            color: #fd79a8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .accessory-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0.5rem 0;
+            line-height: 1.3;
+        }
+        
+        .accessory-description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin: 1rem 0;
+            line-height: 1.5;
+        }
+        
+        .material-info {
+            background: #f8f9fa;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #fd79a8;
+        }
+        
+        .material-info small {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .accessory-rating {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .stars {
+            color: #f39c12;
+            margin-right: 0.5rem;
+        }
+        
+        .rating-text {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        .accessory-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+        
+        .current-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        
+        .original-price {
+            font-size: 1rem;
+            color: #95a5a6;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+        
+        .color-options {
+            margin: 1rem 0;
+        }
+        
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .color-btn:hover,
+        .color-btn.active {
+            border-color: #2c3e50;
+            transform: scale(1.1);
+        }
+        
+        .btn-accessory {
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-accessory:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.4);
+            color: white;
+        }
+        
+        .btn-wishlist {
+            background: transparent;
+            border: 2px solid #fd79a8;
+            color: #fd79a8;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-wishlist:hover {
+            background: #fd79a8;
+            color: white;
+        }
+        
+        .collection-showcase {
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            color: white;
+            padding: 4rem 0;
+            margin: 3rem 0;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .categories-section {
+            background: #f8f9fa;
+            padding: 4rem 0;
+            margin: 3rem 0;
+        }
+        
+        .category-item {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .category-icon {
+            font-size: 3rem;
+            color: #fd79a8;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-bag-check me-2"></i>LibiMall
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/fashion">Fashion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/electronics">Electronics</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/accessories">Accessories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart"><i class="bi bi-cart3 me-1"></i>Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">Accessories Collection</h1>
+                    <p class="lead">Complete your style with our curated selection of premium accessories, bags, jewelry, and lifestyle products.</p>
+                    <a href="#products" class="btn btn-light btn-lg">
+                        <i class="bi bi-gem me-2"></i>Explore Collection
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accessories Grid -->
+    <section class="accessories-grid" id="products">
+        <div class="container">
+            <div class="row">
+                <!-- Accessory 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="accessory-card">
+                        <div class="trending-badge">TRENDING</div>
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=280&fit=crop" class="accessory-image" alt="Luxury Handbag">
+                        <div class="accessory-body">
+                            <div class="accessory-category">Handbags</div>
+                            <h5 class="accessory-title">Designer Leather Handbag</h5>
+                            <p class="accessory-description">Elegant and spacious luxury handbag crafted from premium Italian leather.</p>
+                            <div class="material-info">
+                                <small><strong>Material:</strong> Genuine Italian Leather</small>
+                            </div>
+                            <div class="accessory-rating">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <span class="rating-text">4.7 (892 reviews)</span>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #8B4513;"></div>
+                                <div class="color-btn" style="background: #000000;"></div>
+                                <div class="color-btn" style="background: #D2B48C;"></div>
+                                <div class="color-btn" style="background: #800080;"></div>
+                            </div>
+                            <div class="accessory-price">
+                                <div>
+                                    <span class="current-price">$299</span>
+                                </div>
+                            </div>
+                            <button class="btn-accessory">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="bi bi-heart me-2"></i>Save for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessory 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="accessory-card">
+                        <div class="sale-badge">20% OFF</div>
+                        <img src="https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=400&h=280&fit=crop" class="accessory-image" alt="Watch">
+                        <div class="accessory-body">
+                            <div class="accessory-category">Watches</div>
+                            <h5 class="accessory-title">Classic Analog Watch</h5>
+                            <p class="accessory-description">Timeless design meets modern precision in this elegant timepiece.</p>
+                            <div class="material-info">
+                                <small><strong>Material:</strong> Stainless Steel</small>
+                            </div>
+                            <div class="accessory-rating">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <span class="rating-text">4.3 (1,254 reviews)</span>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #C0C0C0;"></div>
+                                <div class="color-btn" style="background: #FFD700;"></div>
+                                <div class="color-btn" style="background: #B87333;"></div>
+                                <div class="color-btn" style="background: #000000;"></div>
+                            </div>
+                            <div class="accessory-price">
+                                <div>
+                                    <span class="current-price">$199</span>
+                                    <span class="original-price">$249</span>
+                                </div>
+                            </div>
+                            <button class="btn-accessory">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="bi bi-heart me-2"></i>Save for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessory 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="accessory-card">
+                        <img src="https://images.unsplash.com/photo-1506629905607-0e2b1e8e8d8c?w=400&h=280&fit=crop" class="accessory-image" alt="Sunglasses">
+                        <div class="accessory-body">
+                            <div class="accessory-category">Eyewear</div>
+                            <h5 class="accessory-title">Designer Sunglasses</h5>
+                            <p class="accessory-description">UV protection meets style in these premium designer sunglasses.</p>
+                            <div class="material-info">
+                                <small><strong>Protection:</strong> 100% UV Protection</small>
+                            </div>
+                            <div class="accessory-rating">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <span class="rating-text">4.9 (567 reviews)</span>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #000000;"></div>
+                                <div class="color-btn" style="background: #8B4513;"></div>
+                                <div class="color-btn" style="background: #4169E1;"></div>
+                                <div class="color-btn" style="background: #808080;"></div>
+                            </div>
+                            <div class="accessory-price">
+                                <div>
+                                    <span class="current-price">$159</span>
+                                </div>
+                            </div>
+                            <button class="btn-accessory">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="bi bi-heart me-2"></i>Save for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessory 4 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="accessory-card">
+                        <div class="sale-badge">15% OFF</div>
+                        <img src="https://images.unsplash.com/photo-1615655406736-b37c4fabf923?w=400&h=280&fit=crop" class="accessory-image" alt="Jewelry">
+                        <div class="accessory-body">
+                            <div class="accessory-category">Jewelry</div>
+                            <h5 class="accessory-title">Sterling Silver Necklace</h5>
+                            <p class="accessory-description">Elegant sterling silver necklace with delicate pendant design.</p>
+                            <div class="material-info">
+                                <small><strong>Material:</strong> 925 Sterling Silver</small>
+                            </div>
+                            <div class="accessory-rating">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <span class="rating-text">4.6 (2,134 reviews)</span>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #C0C0C0;"></div>
+                                <div class="color-btn" style="background: #FFD700;"></div>
+                                <div class="color-btn" style="background: #E91E63;"></div>
+                            </div>
+                            <div class="accessory-price">
+                                <div>
+                                    <span class="current-price">$89</span>
+                                    <span class="original-price">$105</span>
+                                </div>
+                            </div>
+                            <button class="btn-accessory">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="bi bi-heart me-2"></i>Save for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessory 5 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="accessory-card">
+                        <div class="trending-badge">NEW</div>
+                        <img src="https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=280&fit=crop" class="accessory-image" alt="Scarf">
+                        <div class="accessory-body">
+                            <div class="accessory-category">Scarves</div>
+                            <h5 class="accessory-title">Silk Print Scarf</h5>
+                            <p class="accessory-description">Luxurious silk scarf with beautiful artistic print pattern.</p>
+                            <div class="material-info">
+                                <small><strong>Material:</strong> 100% Pure Silk</small>
+                            </div>
+                            <div class="accessory-rating">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <span class="rating-text">4.4 (743 reviews)</span>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #FF69B4;"></div>
+                                <div class="color-btn" style="background: #4169E1;"></div>
+                                <div class="color-btn" style="background: #32CD32;"></div>
+                                <div class="color-btn" style="background: #FF4500;"></div>
+                            </div>
+                            <div class="accessory-price">
+                                <div>
+                                    <span class="current-price">$79</span>
+                                </div>
+                            </div>
+                            <button class="btn-accessory">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="bi bi-heart me-2"></i>Save for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessory 6 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="accessory-card">
+                        <div class="sale-badge">25% OFF</div>
+                        <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&h=280&fit=crop" class="accessory-image" alt="Belt">
+                        <div class="accessory-body">
+                            <div class="accessory-category">Belts</div>
+                            <h5 class="accessory-title">Premium Leather Belt</h5>
+                            <p class="accessory-description">Handcrafted leather belt with polished metal buckle.</p>
+                            <div class="material-info">
+                                <small><strong>Material:</strong> Full-grain Leather</small>
+                            </div>
+                            <div class="accessory-rating">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <span class="rating-text">4.5 (1,098 reviews)</span>
+                            </div>
+                            <div class="color-options">
+                                <div class="color-btn active" style="background: #8B4513;"></div>
+                                <div class="color-btn" style="background: #000000;"></div>
+                                <div class="color-btn" style="background: #D2B48C;"></div>
+                            </div>
+                            <div class="accessory-price">
+                                <div>
+                                    <span class="current-price">$59</span>
+                                    <span class="original-price">$79</span>
+                                </div>
+                            </div>
+                            <button class="btn-accessory">
+                                <i class="bi bi-bag-plus me-2"></i>Add to Bag
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="bi bi-heart me-2"></i>Save for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Showcase -->
+    <section class="collection-showcase">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>Spring Accessories Collection</h2>
+                    <p class="lead">Refresh your wardrobe with our new spring accessories featuring vibrant colors and contemporary designs.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="/products" class="btn btn-light btn-lg">
+                            <i class="bi bi-collection me-2"></i>View Collection
+                        </a>
+                        <a href="/sale" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-tag me-2"></i>Shop Sale
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Browse by Category</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="bi bi-handbag"></i>
+                        </div>
+                        <h5>Bags & Purses</h5>
+                        <p>Designer handbags and purses</p>
+                        <a href="#" class="btn btn-outline-primary">Shop Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="bi bi-stopwatch"></i>
+                        </div>
+                        <h5>Watches</h5>
+                        <p>Luxury timepieces</p>
+                        <a href="#" class="btn btn-outline-primary">Shop Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="bi bi-gem"></i>
+                        </div>
+                        <h5>Jewelry</h5>
+                        <p>Fine jewelry collection</p>
+                        <a href="#" class="btn btn-outline-primary">Shop Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="bi bi-sunglasses"></i>
+                        </div>
+                        <h5>Eyewear</h5>
+                        <p>Designer sunglasses</p>
+                        <a href="#" class="btn btn-outline-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="bi bi-bag-check me-2"></i>LibiMall</h5>
+                    <p class="mb-3">Your destination for premium accessories and lifestyle products.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Accessories</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Bags</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Watches</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Jewelry</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Eyewear</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Size Guide</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Care Instructions</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">Returns</a></li>
+                        <li><a href="#" style="color: #bdc3c7; text-decoration: none;">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p style="color: #bdc3c7; margin: 0;">
+                        <i class="bi bi-geo-alt-fill me-2"></i>123 Fashion Avenue, Style City<br>
+                        <i class="bi bi-envelope-fill me-2"></i>accessories@libimall.com<br>
+                        <i class="bi bi-phone-fill me-2"></i>+1 (555) 123-STYLE
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: #34495e;">
+            <div class="text-center">
+                <p class="mb-0" style="color: #bdc3c7;">&copy; 2025 LibiMall Accessories. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Color selection
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentNode.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Add to bag functionality
+        document.querySelectorAll('.btn-accessory').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="bi bi-check2 me-2"></i>Added to Bag!';
+                this.style.background = '#27ae60';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.background = '';
+                }, 2500);
+            });
+        });
+
+        // Wishlist functionality
+        document.querySelectorAll('.btn-wishlist').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="bi bi-heart-fill me-2"></i>Saved!';
+                this.style.background = '#e74c3c';
+                this.style.color = 'white';
+                this.style.borderColor = '#e74c3c';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.background = '';
+                    this.style.color = '';
+                    this.style.borderColor = '';
+                }, 2500);
+            });
+        });
+    </script>
+</body>
+</html>
