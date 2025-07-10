@@ -9,34 +9,56 @@ import pgSession from "connect-pg-simple";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// PostgreSQL connection
-const pool = new Pool({
-  user: process.env.DB_USER || "postgres",
-  host: process.env.DB_HOST || "localhost",
-  database: process.env.DB_NAME || "e-commerce",
-  password: process.env.DB_PASSWORD || "maeen2005",
-  port: process.env.DB_PORT || 5432,
-});
+// PostgreSQL connection - with fallback for deployment
+let pool;
+let dbConnected = false;
 
-// Test database connection
-pool.connect((err, client, release) => {
-  if (err) {
-    console.error('Error connecting to database:', err.stack);
-  } else {
-    console.log('Connected to PostgreSQL database');
-    release();
-  }
-});
+try {
+  pool = new Pool({
+    user: process.env.DB_USER || "postgres",
+    host: process.env.DB_HOST || "localhost",
+    database: process.env.DB_NAME || "e-commerce", 
+    password: process.env.DB_PASSWORD || "maeen2005",
+    port: process.env.DB_PORT || 5432,
+    connectionTimeoutMillis: 5000, // 5 second timeout
+  });
 
-// Session store
+  // Test database connection
+  pool.connect((err, client, release) => {
+    if (err) {
+      console.error('Database connection failed:', err.message);
+      console.log('Running in demo mode without database');
+      dbConnected = false;
+    } else {
+      console.log('Connected to PostgreSQL database');
+      dbConnected = true;
+      release();
+    }
+  });
+} catch (error) {
+  console.error('Database initialization failed:', error.message);
+  console.log('Running in demo mode without database');
+  dbConnected = false;
+}
+
+// Session store - with fallback for deployment
 const PgSession = pgSession(session);
-app.use(session({
-  store: new PgSession({ pool }),
+const sessionConfig = {
   secret: process.env.SESSION_SECRET || "your_secret_key_change_in_production",
   resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
-}));
+};
+
+// Only use database session store if database is connected
+if (dbConnected && pool) {
+  sessionConfig.store = new PgSession({ pool });
+  console.log('Using PostgreSQL session store');
+} else {
+  console.log('Using memory session store (demo mode)');
+}
+
+app.use(session(sessionConfig));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
@@ -45,9 +67,17 @@ app.use(passport.session());
 app.set("view engine", "ejs");
 app.set("views", "./"); // if your .ejs files are in the root, or set to the correct folder
 
-// Passport local strategy
+// Passport local strategy - with demo mode fallback
 passport.use(new LocalStrategy(async (username, password, done) => {
   try {
+    if (!dbConnected || !pool) {
+      // Demo mode - allow demo login
+      if (username === 'demo@libimall.com' && password === 'demo123') {
+        return done(null, { id: 1, email: 'demo@libimall.com', name: 'Demo User' });
+      }
+      return done(null, false, { message: "Use demo@libimall.com / demo123 for demo" });
+    }
+    
     const result = await pool.query('SELECT * FROM "user info" WHERE email = $1', [username]);
     if (result.rows.length === 0) return done(null, false, { message: "Incorrect email." });
     const user = result.rows[0];
@@ -62,8 +92,15 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
+
 passport.deserializeUser(async (id, done) => {
   try {
+    if (!dbConnected || !pool) {
+      // Demo mode
+      done(null, { id: 1, email: 'demo@libimall.com', name: 'Demo User' });
+      return;
+    }
+    
     const result = await pool.query('SELECT * FROM "user info" WHERE id = $1', [id]);
     done(null, result.rows[0]);
   } catch (err) {
@@ -150,6 +187,11 @@ app.post("/register", async (req, res) => {
   console.log('Registration attempt:', { email, password: '***' });
   
   try {
+    if (!dbConnected || !pool) {
+      // Demo mode - registration not available
+      return res.redirect("/register?error=" + encodeURIComponent("Registration not available in demo mode. Use demo@libimall.com / demo123 to login"));
+    }
+    
     // Check if user already exists
     const existingUser = await pool.query('SELECT * FROM "user info" WHERE email = $1', [email]);
     if (existingUser.rows.length > 0) {
