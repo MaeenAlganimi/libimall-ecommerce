@@ -241,6 +241,55 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err);
+  
+  if (res.headersSent) {
+    return next(err);
+  }
+  
+  // Render a simple error page
+  res.status(500);
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>LibiMall - Error</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body class="bg-light">
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body text-center">
+                <h1 class="card-title text-danger">500</h1>
+                <p class="card-text">Something went wrong on our end. Please try again later.</p>
+                <a href="/" class="btn btn-primary">Go Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+// Process error handling
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// Export for Vercel
+export default app;
